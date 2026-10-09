@@ -1,0 +1,126 @@
+.track-card{
+
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:linear-gradient(180deg, rgba(18, 27, 39, 0.8), rgba(12, 18, 29, 0.72));
+    border:1px solid rgba(255,255,255,0.09);
+    border-radius:20px;
+    padding:12px;
+    margin-bottom:0;
+    cursor:pointer;
+    transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+    overflow:hidden;
+    box-shadow:0 16px 28px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+}
+
+.track-card::before{
+    content:"";
+    position:absolute;
+    inset:0 auto 0 0;
+    width:2px;
+    background:linear-gradient(180deg, var(--secondary), var(--primary));
+    opacity:0;
+    transition:opacity var(--transition);
+}
+
+.track-play{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex:1;
+    min-width:0;
+    padding:0;
+    text-align:left;
+}
+
+.track-card:hover{
+
+    transform:translateY(-3px);
+    box-shadow:0 24px 38px rgba(6, 11, 20, 0.42), 0 0 0 1px rgba(124, 92, 255, 0.12);
+    border-color:rgba(124, 92, 255, 0.32);
+    background:linear-gradient(180deg, rgba(24, 34, 50, 0.9), rgba(14, 19, 30, 0.78));
+}
+
+.track-card:hover::before{
+    opacity:1;
+}
+
+.track-card img{
+
+    width:74px;
+    height:74px;
+    border-radius:14px;
+    object-fit:cover;
+    flex-shrink:0;
+    box-shadow:0 12px 22px rgba(0,0,0,0.28);
+
+}
+
+.track-details{
+
+    flex:1;
+    min-width:0;
+
+}
+
+.track-details h3{
+
+    font-size:1rem;
+    font-weight:700;
+    margin-bottom:5px;
+    letter-spacing:-0.03em;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+}
+
+.track-details p{
+
+    color:var(--text-secondary);
+    font-size:0.8rem;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+}
+
+.favorite-toggle{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,0.03);
+    font-size:1.1rem;
+    color:var(--text-secondary);
+    display:grid;
+    place-items:center;
+    transition:all var(--transition);
+}
+
+.favorite-action{
+    position:relative;
+    display:grid;
+    justify-items:center;
+}
+
+.favorite-storage-error{
+    position:absolute;
+    top:calc(100% + 4px);
+    right:0;
+    width:max-content;
+    max-width:180px;
+    color:var(--danger);
+    font-size:.68rem;
+}
+
+.favorite-toggle:hover{
+    color:var(--danger);
+    border-color:rgba(255, 93, 115, 0.32);
+    background:rgba(255, 93, 115, 0.07);
+}

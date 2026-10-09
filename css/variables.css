@@ -1,0 +1,39 @@
+:root{
+
+    --primary:#7c5cff;
+    --primary-dark:#5d3df0;
+    --primary-soft:#9a87ff;
+    --secondary:#57d8ff;
+    --success:#1ed760;
+    --danger:#ff5d73;
+    --warning:#ffbf69;
+
+    --background:#050b14;
+    --background-alt:#0d1726;
+    --surface:rgba(16, 22, 34, 0.64);
+    --surface-strong:#121c2d;
+    --surface-light:rgba(24, 31, 46, 0.8);
+    --surface-elevated:rgba(16, 24, 38, 0.88);
+    --border:rgba(255,255,255,0.12);
+    --glass:rgba(255,255,255,0.06);
+
+    --text:#f5f7ff;
+    --text-secondary:#aac0dc;
+    --text-muted:#7a8ca7;
+
+    --radius:22px;
+
+    --shadow:
+        0 28px 70px rgba(4, 7, 15, 0.6);
+    --shadow-soft:
+        0 18px 40px rgba(124, 92, 255, 0.22);
+
+    --transition:0.25s ease;
+
+    --header-height:76px;
+    --nav-height:82px;
+    --mini-player-height:90px;
+
+    --max-width:1400px;
+
+}

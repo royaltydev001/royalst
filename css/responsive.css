@@ -1,0 +1,141 @@
+@media (min-width: 768px) {
+    main {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .track-list,
+    #discoverContent,
+    #favorites,
+    #searchResults {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .profile-sections { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .profile-main-card { grid-column:1 / -1; }
+}
+
+@media (min-width: 1200px) {
+    main {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 620px) {
+    header {
+        padding: 0 12px;
+    }
+
+    .hero-panel {
+        grid-template-columns: 1fr;
+        padding: 18px 16px;
+    }
+
+    .hero-art-wrap {
+        justify-self:stretch;
+        width:100%;
+        max-width:280px;
+    }
+
+    main {
+        padding: 12px 12px calc(200px + env(safe-area-inset-bottom));
+    }
+
+    nav {
+        width: calc(100vw - 18px);
+        bottom: max(8px, env(safe-area-inset-bottom));
+    }
+
+    #miniPlayer {
+        width: calc(100vw - 18px);
+        bottom: calc(var(--nav-height) + max(10px, env(safe-area-inset-bottom)));
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .mini-player-open {
+        gap: 9px;
+    }
+
+    .mini-player-controls {
+        gap: 2px;
+    }
+
+    .mini-player-control {
+        width:28px;
+    }
+
+    .mini-play-button {
+        width:40px;
+        height:40px;
+    }
+
+    #miniArtwork {
+        width:50px;
+        height:50px;
+    }
+
+    .profile-card { padding:16px; }
+    .profile-card-heading { align-items:flex-start; }
+    .profile-music-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .profile-tabs button { padding:11px 10px; font-size:.88rem; }
+}
+
+@media (max-width: 620px) and (max-height: 700px) {
+    :root {
+        --nav-height:68px;
+        --mini-player-height:76px;
+    }
+
+    .now-playing-card {
+        padding:20px 18px 16px;
+    }
+
+    #nowPlayingArtwork {
+        max-width:190px;
+        height:auto;
+        aspect-ratio:1;
+        margin:12px auto;
+    }
+
+    .now-playing-actions {
+        margin-top:14px;
+    }
+
+    .playback-progress {
+        margin-top:12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .track-card {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .track-card img {
+        width: 62px;
+        height: 62px;
+    }
+
+    nav button {
+        font-size: 0.7rem;
+    }
+
+    .nav-icon {
+        width:18px;
+        height:18px;
+    }
+
+    #playPause {
+        width: 42px;
+        height: 42px;
+    }
+
+    .profile-form-grid { grid-template-columns:1fr; }
+    .profile-bio-field { grid-column:auto; }
+    .profile-card-heading { flex-direction:column; }
+    .profile-volume-row input { width:42%; }
+    nav button span { font-size:.62rem; letter-spacing:-.04em; }
+}
