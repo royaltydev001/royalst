@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import MusicAPI from "./api/musicApi";
 import Player from "./player/player";
 import QueueManager from "./player/queue";
@@ -7,8 +7,11 @@ import Storage from "./storage/storage";
 import type { Track } from "./types";
 import { formatTime } from "./utils/time";
 
+const AdminDashboard = lazy(() => import("./AdminDashboard"));
+
 const DEFAULT_COVER = "assets/images/default-cover.png";
-const PAGES = ["home", "discover", "search", "library", "profile"] as const;
+const PAGES = ["home", "discover", "search", "library", "profile", "admin"] as const;
+const NAV_PAGES = ["home", "discover", "search", "library", "profile"] as const;
 type PageName = typeof PAGES[number];
 const FAVORITES_CHANGE_EVENT = "royalstream:favoriteschange";
 
@@ -431,6 +434,7 @@ export default function App() {
           {page === "search" && <SearchPage />}
           {page === "library" && <LibraryPage />}
           {page === "profile" && <ProfilePage navigate={navigate} />}
+          {page === "admin" && <Suspense fallback={<p role="status">Loading admin tools…</p>}><AdminDashboard /></Suspense>}
         </main>
         <NowPlaying
           state={playerState}
@@ -443,7 +447,7 @@ export default function App() {
           onSeek={(seconds) => Player.seek(seconds)}
         />
         <nav aria-label="Main navigation" aria-hidden={nowPlayingOpen}>
-          {PAGES.map((item) => (
+          {NAV_PAGES.map((item) => (
             <button key={item} className={page === item ? "active" : ""} aria-label={item === "profile" ? "Profile and settings" : item[0].toUpperCase() + item.slice(1)} aria-current={page === item ? "page" : undefined} onClick={() => navigate(item)}>
               <NavIcon page={item} />
               <span>{item === "profile" ? "Profile" : item[0].toUpperCase() + item.slice(1)}</span>

@@ -943,3 +943,16 @@ body:not(.dark-mode) .skeleton-copy span::after{
 .firebase-password-form h3 { margin-bottom:2px; }
 .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 nav button span { white-space:nowrap; }
+
+.admin-page { max-width:1000px; margin:0 auto; }
+.admin-sections { display:grid; gap:16px; }
+.admin-page .profile-form-grid input[type="file"] { padding:9px; }
+.admin-page .profile-form-grid input:disabled { opacity:.6; }
+.admin-track-list { display:grid; gap:10px; }
+.admin-track { display:grid; grid-template-columns:56px minmax(0,1fr) auto; align-items:center; gap:13px; padding:10px; border:1px solid var(--border); border-radius:var(--radius); background:var(--surface-strong); }
+.admin-track img { width:56px; height:56px; object-fit:cover; border-radius:10px; }
+.admin-track > div { display:grid; gap:4px; min-width:0; }
+.admin-track > div strong, .admin-track > div span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.admin-track > div span, .admin-page .profile-card > p { color:var(--text-secondary); font-size:.9rem; }
+.admin-error { margin:0 0 14px; padding:11px 14px; border-radius:var(--radius); background:rgba(255,90,90,.12); color:var(--text); }
+.admin-page code { overflow-wrap:anywhere; padding:2px 5px; border-radius:5px; background:var(--surface-strong); }

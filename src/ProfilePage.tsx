@@ -47,12 +47,13 @@ function PreferenceRow({ title, description, checked, onChange }: {
   );
 }
 
-export default function ProfilePage({ navigate }: { navigate: (page: "library") => void }) {
+export default function ProfilePage({ navigate }: { navigate: (page: "library" | "admin") => void }) {
   const [tab, setTab] = useState<ProfileTab>("profile");
   const [profile, setProfile] = useState<UserProfile>(readProfile);
   const [draft, setDraft] = useState<UserProfile>(readProfile);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [firebaseUser, setFirebaseUser] = useState({ uid: "", email: "" });
+  const [adminEnabled, setAdminEnabled] = useState(false);
   const [cloudProfileLoaded, setCloudProfileLoaded] = useState(false);
   const [editing, setEditing] = useState(() => {
     const saved = readProfile();
@@ -85,6 +86,17 @@ export default function ProfilePage({ navigate }: { navigate: (page: "library") 
       window.removeEventListener("royalstream:authchange", handleAuthChange);
     };
   }, []);
+
+  useEffect(() => {
+    let active = true;
+    setAdminEnabled(false);
+    if (firebaseUser.uid) {
+      void import("./firebase/adminStore").then(({ isAdmin }) => isAdmin(firebaseUser.uid))
+        .then((enabled) => { if (active) setAdminEnabled(enabled); })
+        .catch(() => { if (active) setAdminEnabled(false); });
+    }
+    return () => { active = false; };
+  }, [firebaseUser.uid]);
 
   useEffect(() => {
     if (!firebaseUser.uid) {
@@ -324,6 +336,7 @@ export default function ProfilePage({ navigate }: { navigate: (page: "library") 
 
         {tab === "account" && (
           <div className="profile-sections">
+            {adminEnabled && <section className="profile-card"><div className="profile-card-heading"><div><h2>Catalog administration</h2><p>Manage tracks and artwork published on RoyalStream.</p></div><button className="primary-cta" type="button" onClick={() => navigate("admin")}>Open admin dashboard</button></div></section>}
             <section className="profile-card"><Suspense fallback={<p role="status">Loading account tools…</p>}><FirebaseAccount /></Suspense></section>
             <section className="profile-card"><div className="profile-card-heading"><div><h2>Account information</h2><p>Firebase handles sign-in and profile details. Preferences and music activity remain on this device for now.</p></div></div>
               <div className="profile-info-row"><strong>Username</strong><p>{profile.username || "Not set"} · Edit this under Profile.</p></div>

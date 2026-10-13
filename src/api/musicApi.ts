@@ -4,6 +4,10 @@ import Jamendo from "./jamendo";
 import Audius from "./audius";
 import type { Track } from "../types";
 
+function getPublishedTracks() {
+    return import("../firebase/adminStore").then(({ getPublishedTracks: load }) => load());
+}
+
 export interface MusicResult {
     tracks: Track[];
     failedSources: number;
@@ -31,23 +35,31 @@ class MusicAPI {
 
     async trending(limit = 20): Promise<MusicResult> {
 
-        const [jamendo, audius] = await Promise.allSettled([
+        const [jamendo, audius, admin] = await Promise.allSettled([
             Jamendo.trending(limit),
-            Audius.trending(limit)
+            Audius.trending(limit),
+            getPublishedTracks(),
         ]);
 
-        return this.combine([jamendo, audius]);
+        const combined = this.combine([jamendo, audius]);
+        const adminTracks = admin.status === "fulfilled" ? admin.value : [];
+        return { ...combined, tracks: [...adminTracks, ...combined.tracks].slice(0, limit) };
 
     }
 
     async search(query: string): Promise<MusicResult> {
 
-        const [jamendo, audius] = await Promise.allSettled([
+        const [jamendo, audius, admin] = await Promise.allSettled([
             Jamendo.search(query),
-            Audius.search(query)
+            Audius.search(query),
+            getPublishedTracks(),
         ]);
 
-        return this.combine([jamendo, audius]);
+        const combined = this.combine([jamendo, audius]);
+        const term = query.trim().toLocaleLowerCase();
+        const adminTracks = admin.status === "fulfilled" ? admin.value.filter((track) =>
+            [track.title, track.artist, track.album, track.genre].some((value) => value?.toLocaleLowerCase().includes(term))) : [];
+        return { ...combined, tracks: [...adminTracks, ...combined.tracks] };
 
     }
 

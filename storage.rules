@@ -1,6 +1,12 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    function isAdmin() {
+      return request.auth != null
+        && firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid))
+        && firestore.get(/databases/(default)/documents/admins/$(request.auth.uid)).data.enabled == true;
+    }
+
     match /users/{userId}/avatar {
       allow read: if request.auth != null && request.auth.uid == userId;
       allow create, update: if request.auth != null
@@ -8,6 +14,19 @@ service firebase.storage {
         && request.resource.size <= 1 * 1024 * 1024
         && request.resource.contentType.matches('image/.*');
       allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /tracks/{trackId}/{fileName} {
+      allow read: if true;
+      allow create, update: if isAdmin() && (
+        (fileName == 'artwork'
+          && request.resource.size <= 5 * 1024 * 1024
+          && request.resource.contentType.matches('image/(jpeg|png|webp)'))
+        || (fileName == 'audio'
+          && request.resource.size <= 50 * 1024 * 1024
+          && request.resource.contentType.matches('audio/.*'))
+      );
+      allow delete: if isAdmin();
     }
   }
 }
